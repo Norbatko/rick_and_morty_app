@@ -21,7 +21,7 @@ struct CharacterListView: View {
                     }
                     .padding()
                 }
-                .navigationTitle("Episodes")
+                .navigationTitle("Characters")
                 .onAppear {
                     viewModel.fetchCharacters()
                 }
