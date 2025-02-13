@@ -15,7 +15,7 @@ struct EpisodeListView: View {
             List(viewModel.episodes ?? [], id: \.id) { episode in
                 EpisodeRow(episode: episode)  // Custom row view
             }
-            .navigationTitle("Rick & Morty Episodes")
+            .navigationTitle("Episodes")
             .onAppear {
                 viewModel.fetchEpisodes()
             }
