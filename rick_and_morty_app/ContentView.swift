@@ -15,6 +15,11 @@ struct ContentView: View {
                     Image(systemName: "list.bullet")
                     Text("Episodes")
                 }
+            CharacterListView()
+                .tabItem {
+                    Image(systemName: "person.2.fill")
+                    Text("Characters")
+                }
         }
     }
 }
