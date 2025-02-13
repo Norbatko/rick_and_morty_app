@@ -12,6 +12,9 @@ struct CharacterListView: View {
     let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
     
     var body: some View {
+        if (viewModel.characters?.isEmpty ?? true) {
+            Text("Loading...")
+        } else {
             NavigationView {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
@@ -27,4 +30,5 @@ struct CharacterListView: View {
                 }
             }
         }
+    }
 }
