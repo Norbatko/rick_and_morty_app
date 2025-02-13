@@ -12,10 +12,15 @@ struct Character: Identifiable, Codable {
     let species: String
     let type: String
     let gender: String
-    let origin: Location
-    let location: Location
+    let origin: CharacterLocation
+    let location: CharacterLocation
     let image: String
     let episode: [String]
     let url: String
     let created: String
+}
+
+struct CharacterLocation: Codable {
+    let name: String
+    let url: String
 }
