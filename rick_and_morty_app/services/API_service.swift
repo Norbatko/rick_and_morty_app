@@ -43,4 +43,37 @@ class APIService {
             }
         }.resume()
     }
+    
+    func fetchCharacters(completion: @escaping ([Character]?) -> Void) {
+        let urlString = "https://rickandmortyapi.com/api/character"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching data: \(error)")
+                completion(nil)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let decodedResponse = try JSONDecoder().decode(CharacterResponse.self, from: data)
+                completion(decodedResponse.results)
+            } catch {
+                print("Decoding error: \(error)")
+                completion(nil)
+            }
+            
+        }.resume()
+    }
 }
