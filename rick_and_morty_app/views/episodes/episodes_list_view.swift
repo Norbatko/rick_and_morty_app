@@ -13,7 +13,11 @@ struct EpisodeListView: View {
     var body: some View {
         NavigationView {
             List(viewModel.episodes ?? [], id: \.id) { episode in
-                EpisodeRow(episode: episode)  // Custom row view
+                NavigationLink {
+                    EpisodeDetailView(episode: episode)
+                } label: {
+                    EpisodeRow(episode: episode)
+                }
             }
             .navigationTitle("Episodes")
             .onAppear {
