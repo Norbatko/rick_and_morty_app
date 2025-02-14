@@ -18,6 +18,14 @@ class CharacterViewModel: ObservableObject {
         }
     }
     
+    func fetchCharactersByIDs(characters: [String]) {
+        APIService.shared.fetchCharactersByIDs(characters: characters) { [weak self] characters in
+            DispatchQueue.main.async {
+                self?.characters = characters
+            }
+        }
+    }
+    
     func getCharacterImageURL(from characters: [String]) -> URL? {
         guard let firstCharacterURL = characters.first else { return nil }
         let id = firstCharacterURL.split(separator: "/").last ?? ""
