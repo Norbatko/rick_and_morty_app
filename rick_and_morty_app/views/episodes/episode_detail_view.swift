@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EpisodeDetailView: View {
     var episode: Episode
-    let characters: [String]
     
     @StateObject private var viewModel = CharacterViewModel()
     
@@ -52,7 +51,7 @@ struct EpisodeDetailView: View {
             .background(Color(UIColor.systemBackground))
         }
         .onAppear {
-            viewModel.fetchCharactersByIDs(characters: characters)
+            viewModel.fetchCharactersByIDs(characters: episode.characters)
         }
     }
 }
