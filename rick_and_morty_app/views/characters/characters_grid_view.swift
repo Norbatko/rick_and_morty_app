@@ -16,7 +16,11 @@ struct CharacterGridView: View {
     var body: some View {
         LazyVGrid(columns: columns, spacing: 10) {
             ForEach(viewModel.characters ?? [], id: \.id) { character in
-                CharacterGridItem(character: character)
+                NavigationLink {
+                    CharacterDetailView(character: character)
+                } label: {
+                    CharacterGridItem(character: character)
+                }
             }
         }
         .padding()
