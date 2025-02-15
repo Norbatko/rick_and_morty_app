@@ -15,38 +15,36 @@ struct EpisodeDetailView: View {
     let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
     
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 0) {
-                    // Sticky Header Section
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(episode.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.primary)
-                            .padding(.top)
-                        
-                        HStack {
-                            Text("Air Date: \(episode.air_date)")
-                                .font(.subheadline)
-                            Spacer()
-                            Text("Episode #: \(episode.episode)")
-                                .font(.subheadline)
-                        }
-                        .foregroundColor(.secondary)
-                        
-                        Divider()
-                        
-                        Text("Characters in this episode")
-                            .font(.headline)
-                    }
-                    .padding()
-                    .frame(width: geometry.size.width)
-                    .background(Color(UIColor.systemBackground))
-                    .zIndex(1)
-                    
-                    CharacterGridView(characters: episode.characters)
+        VStack(spacing: 0) {
+            // Sticky Header Section
+            VStack(alignment: .leading, spacing: 10) {
+                Text(episode.name)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .padding(.top)
+                
+                HStack {
+                    Text("Air Date: \(episode.air_date)")
+                        .font(.subheadline)
+                    Spacer()
+                    Text("Episode: \(episode.episode)")
+                        .font(.subheadline)
                 }
+                .foregroundColor(.secondary)
+                
+                Divider()
+                
+                Text("Characters in this episode")
+                    .font(.headline)
+            }
+            .padding()
+            .background(Color(UIColor.systemBackground))
+            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Adds a subtle shadow
+            
+            // Scrollable Characters List
+            ScrollView {
+                CharacterGridView(characters: episode.characters)
             }
             .background(Color(UIColor.systemBackground))
         }
