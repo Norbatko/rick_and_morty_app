@@ -9,45 +9,50 @@ import SwiftUI
 
 struct EpisodeDetailView: View {
     var episode: Episode
+    let characters: [String]
+    
+    @StateObject private var viewModel = CharacterViewModel()
+    
+    let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                
-                // Episode Title
-                Text(episode.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                    .padding(.top)
-                
-                // Episode Meta Data (Air Date, Episode Number)
-                HStack {
-                    Text("Air Date: \(episode.air_date)")
-                        .font(.subheadline)
-                    Spacer()
-                    Text("Episode #: \(episode.episode)")
-                        .font(.subheadline)
-                }
-                .foregroundColor(.secondary)
-                
-                Divider() // Adds a line separator
-                
-                // Character List Title
-                Text("Characters in this episode")
-                    .font(.headline)
-                    .padding(.top)
-                
-                // Character Images in a Grid
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
-                        CharacterGridView(characters: episode.characters)
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 0) {
+                    // Sticky Header Section
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(episode.name)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                            .padding(.top)
+                        
+                        HStack {
+                            Text("Air Date: \(episode.air_date)")
+                                .font(.subheadline)
+                            Spacer()
+                            Text("Episode #: \(episode.episode)")
+                                .font(.subheadline)
+                        }
+                        .foregroundColor(.secondary)
+                        
+                        Divider()
+                        
+                        Text("Characters in this episode")
+                            .font(.headline)
                     }
-                    .padding(.horizontal)
+                    .padding()
+                    .frame(width: geometry.size.width)
+                    .background(Color(UIColor.systemBackground))
+                    .zIndex(1)
+                    
+                    CharacterGridView(characters: episode.characters)
                 }
             }
-            .padding()
+            .background(Color(UIColor.systemBackground))
         }
-        .background(Color(UIColor.systemBackground)) // To ensure it adapts well in light/dark mode
+        .onAppear {
+            viewModel.fetchCharactersByIDs(characters: characters)
+        }
     }
 }
