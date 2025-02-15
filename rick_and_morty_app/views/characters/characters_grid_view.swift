@@ -21,10 +21,10 @@ struct CharacterGridView: View {
         }
         .padding()
         .onAppear {
-            if (characters?.isEmpty ?? true) {
-                viewModel.fetchCharacters()
-            } else {
+            if (characters != nil) {
                 viewModel.fetchCharactersByIDs(characters: characters!)
+            } else {
+                viewModel.fetchCharacters()
             }
         }
     }
