@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+@_exported import Inject
 
 @main
 struct rick_and_morty_appApp: App {
