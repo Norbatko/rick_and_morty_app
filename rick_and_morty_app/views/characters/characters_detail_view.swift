@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CharacterDetailView: View {
     var character: Character
+    let formatter = ISO8601DateFormatter()
     
     var body: some View {
         GeometryReader { geometry in
@@ -19,11 +20,11 @@ struct CharacterDetailView: View {
                         image
                             .resizable()
                             .scaledToFill()
-                            .frame(width: geometry.size.width, height: geometry.size.height * 0.7) // Fills half the screen
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.65)
                             .clipped()
                     } placeholder: {
                         ProgressView()
-                            .frame(width: geometry.size.width, height: geometry.size.height * 0.7)
+                            .frame(width: geometry.size.width, height: geometry.size.height * 0.65)
                     }
                     
                     // Character Info (Below the image)
@@ -43,25 +44,31 @@ struct CharacterDetailView: View {
                         Divider()
                         
                         VStack(alignment: .leading, spacing: 5) {
+                            Text("Gender: \(character.gender)")
+                            Text("Type: \(character.type == "" ? "None" : character.type)")
                             Text("Origin: \(character.origin.name)")
                             Text("Location: \(character.location.name)")
-                            Text("Gender: \(character.gender)")
+                            Text("Date of creation: \(character.created)")
                         }
                         .font(.subheadline)
                         .foregroundColor(.secondary)
+                        
+                        Divider()
+                        
+                        Link("Download avatar", destination: URL(string: character.image)!)
+                            .foregroundColor(.indigo)
                     }
                     .padding()
                     .background(Color(UIColor.secondarySystemBackground))
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     .shadow(radius: 5)
                     .padding(.horizontal)
-                    .padding(.top, -30) // Slight overlap effect
+                    .padding(.top, -30)
                 }
             }
         }
         .edgesIgnoringSafeArea(.top) // Allows the image to extend to the top
         .background(Color(UIColor.systemBackground))
-        .navigationTitle(character.name)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
