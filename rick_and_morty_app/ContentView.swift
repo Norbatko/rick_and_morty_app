@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObserveInjection var inject
     
     var body: some View {
         TabView {
@@ -23,7 +22,6 @@ struct ContentView: View {
                     Text("Characters")
                 }
         }
-        .enableInjection()
     }
 }
 
