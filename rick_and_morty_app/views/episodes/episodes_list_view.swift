@@ -36,7 +36,7 @@ struct EpisodeListView: View {
     }
    
     var body: some View {
-        NavigationView {  // Move NavigationView to wrap the entire view
+        NavigationStack {
             VStack {
                 HStack {
                     Picker("Sort By", selection: $sortOrder) {
