@@ -10,6 +10,7 @@ import SwiftUI
 struct CharacterDetailView: View {
     var character: Character
     let formatter = ISO8601DateFormatter()
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         GeometryReader { geometry in
@@ -70,5 +71,23 @@ struct CharacterDetailView: View {
         .edgesIgnoringSafeArea(.top) // Allows the image to extend to the top
         .background(Color(UIColor.systemBackground))
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.backward.circle.fill")
+                            .resizable() // Makes the image scalable
+                            .frame(width: 30, height: 30) // Adjusts size
+                            .foregroundColor(.white) // Sets icon color
+                            .background(Circle().fill(Color.blue)) // Adds a background
+                            .padding(5) // Increases tap area
+                            .shadow(radius: 4)
+                    }
+                }
+            }
+        }
     }
 }
