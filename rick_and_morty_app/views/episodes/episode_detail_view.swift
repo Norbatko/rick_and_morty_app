@@ -11,17 +11,36 @@ struct EpisodeDetailView: View {
     var episode: Episode
     
     @StateObject private var viewModel = CharacterViewModel()
+    @State private var rating: Int = 0
     
     let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
+    
+    func loadRating() {
+        if let savedRating = RatingStorage.loadRating(for: episode.id) {
+            rating = savedRating
+        }
+    }
+        
+    // Save the rating when it changes
+    func saveRating() {
+        RatingStorage.saveRating(for: episode.id, rating: rating)
+    }
     
     var body: some View {
         VStack() {
             // Sticky Header Section
             VStack(alignment: .leading) {
-                Text(episode.name)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
+                HStack {
+                    Text(episode.name)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    StarRatingView(rating: $rating)
+                        .onChange(of: rating) { _, _ in
+                        saveRating()  // Save the rating whenever it changes
+                    }
+                }
                 
                 HStack {
                     Text("Air Date: \(episode.air_date)")
@@ -33,7 +52,7 @@ struct EpisodeDetailView: View {
                 .foregroundColor(.secondary)
             }
             .padding()
-            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Adds a subtle shadow
+            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             
             Divider()
 
@@ -46,6 +65,7 @@ struct EpisodeDetailView: View {
         .background(Color(.systemGroupedBackground))
         .onAppear {
             viewModel.fetchCharactersByIDs(characters: episode.characters)
+            loadRating()
         }
     }
 }
