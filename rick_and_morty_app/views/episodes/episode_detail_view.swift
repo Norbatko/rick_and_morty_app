@@ -15,14 +15,13 @@ struct EpisodeDetailView: View {
     let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack() {
             // Sticky Header Section
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading) {
                 Text(episode.name)
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                    .padding(.top)
                 
                 HStack {
                     Text("Air Date: \(episode.air_date)")
@@ -32,24 +31,25 @@ struct EpisodeDetailView: View {
                         .font(.subheadline)
                 }
                 .foregroundColor(.secondary)
-                
-                Divider()
-                
-                Text("Characters in this episode")
-                    .font(.headline)
             }
             .padding()
-            .background(Color(UIColor.systemBackground))
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Adds a subtle shadow
             
-            // Scrollable Characters List
+            Divider()
+
+            Text("Characters in this episode").font(.headline)
+            
             ScrollView {
                 CharacterGridView(characters: episode.characters)
             }
-            .background(Color(UIColor.systemBackground))
         }
+        .background(Color(.systemGroupedBackground))
         .onAppear {
             viewModel.fetchCharactersByIDs(characters: episode.characters)
         }
     }
+}
+
+#Preview {
+    ContentView()
 }
