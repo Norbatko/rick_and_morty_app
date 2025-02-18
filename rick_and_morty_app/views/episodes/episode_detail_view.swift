@@ -12,6 +12,8 @@ struct EpisodeDetailView: View {
     
     @StateObject private var viewModel = CharacterViewModel()
     @State private var rating: Int = 0
+    @State private var isAddNoteSheetPresented: Bool = false
+    @State private var isNoteListSheetPresented: Bool = false
     
     let columns = [GridItem(.adaptive(minimum: 150), spacing: 10)]
     
@@ -38,8 +40,8 @@ struct EpisodeDetailView: View {
                     Spacer()
                     StarRatingView(rating: $rating)
                         .onChange(of: rating) { _, _ in
-                        saveRating()  // Save the rating whenever it changes
-                    }
+                            saveRating()  // Save the rating whenever it changes
+                        }
                 }
                 
                 HStack {
@@ -55,7 +57,7 @@ struct EpisodeDetailView: View {
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             
             Divider()
-
+            
             Text("Characters in this episode").font(.headline)
             
             ScrollView {
@@ -66,6 +68,21 @@ struct EpisodeDetailView: View {
         .onAppear {
             viewModel.fetchCharactersByIDs(characters: episode.characters)
             loadRating()
+        }
+        .toolbar{
+            Button (action: {self.isNoteListSheetPresented.toggle()}) {
+                Image(systemName: "note.text")
+            }
+            .popover(isPresented: $isNoteListSheetPresented) {
+                NotesListView(episodeID: episode.id)
+            }
+            
+            Button (action: {self.isAddNoteSheetPresented.toggle()}) {
+                Image(systemName: "note.text.badge.plus")
+            }
+            .popover(isPresented: $isAddNoteSheetPresented) {
+                AddNoteView(episodeID: episode.id)
+            }
         }
     }
 }
